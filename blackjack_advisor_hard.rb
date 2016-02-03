@@ -46,6 +46,25 @@ def show_best_move(move)
   puts "Your best move is to #{best_moves_key[move]}"
 end
 
+def get_deck_input
+  puts "Today are we playing with 1, 2 or 4 decks: "
+  temp = gets.chomp
+  if is_integer?(temp)
+    temp = temp.to_i
+    if temp == 1 || temp == 2 || temp == 4
+      return temp
+    else
+      puts "Please enter only a 1, a 2, or a 4 for number of decks."
+      return get_deck_input
+    end
+  else
+    puts "Please enter a number for the number of decks."
+    sleep 1
+    puts "Idiot"
+    return get_deck_input
+  end
+end
+
 card_values = {"J" => "10", "Q" => "10", "K" => "10", "A" => "11"}
 hard_table = {5 => {"2" => "H", "3" => "H", "4" => "H", "5" => "H", "6" => "H",
                     "7" => "H", "8" => "H", "9" => "H", "10" => "H", "A" => "H"},
@@ -123,6 +142,8 @@ ACE = 11
 hard_table.default = "S"
 soft_table.default = "S"
 paired_table.default = "P"
+deck_count = get_deck_input
+
 puts "I will be asking for your blackjack hand first one card at a time and then the dealers card."
 puts "Please respond with the number or for face cards enter J for Jack, Q for Queen, K for King or A for Ace."
 card1 = get_card_input_player("first", card_values)
