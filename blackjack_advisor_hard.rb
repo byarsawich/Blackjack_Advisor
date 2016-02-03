@@ -65,6 +65,10 @@ def get_deck_input
   end
 end
 
+def check_2_decks(hash, card1, card2, dealer)
+
+end
+
 card_values = {"J" => "10", "Q" => "10", "K" => "10", "A" => "11"}
 hard_table = {5 => {"2" => "H", "3" => "H", "4" => "H", "5" => "H", "6" => "H",
                     "7" => "H", "8" => "H", "9" => "H", "10" => "H", "A" => "H"},
@@ -151,12 +155,29 @@ card2 = get_card_input_player("second", card_values)
 dealer = get_card_input_dealer(card_values, ACE)
 #this is prety bad, but i did not want to go through and change the "A"s in the hash to 11
 dealer = "A" if dealer.to_i == ACE
-#puts "Key: H = Hit, S = Stand, P = Split, Dh = double if you can or hold, Ds = double if you can or stand"
 
 if card1 == card2
-  show_best_move(get_hash_value(paired_table, card1, dealer))
+  if deck_count == 2 && paired_table_2_decks[card1][dealer]
+    show_best_move(get_hash_value(paired_table_2_decks, card1, dealer))
+  elsif deck_count == 4 && paired_table_4_decks[card1][dealer]
+    show_best_move(get_hash_value(paired_table_4_decks, card1, dealer))
+  else
+    show_best_move(get_hash_value(paired_table, card1, dealer))
+  end
 elsif card1 == ACE || card2 == ACE
-  show_best_move(get_hash_value(soft_table, card1 + card2, dealer))
+  if deck_count == 2 && soft_table_2_decks[card1 + card2][dealer]
+    show_best_move(get_hash_value(soft_table_2_decks, card1 + card2, dealer))
+  elsif deck_count == 4 && soft_table_4_decks[card1 + card2][dealer]
+    show_best_move(get_hash_value(soft_table_4_decks, card1 + card2, dealer))
+  else
+    show_best_move(get_hash_value(soft_table, card1 + card2, dealer))
+  end
 else
-  show_best_move(get_hash_value(hard_table, card1 + card2,dealer))
+  if deck_count == 2 && hard_table_2_decks[card1 + card2][dealer]
+    show_best_move(get_hash_value(hard_table_2_decks, card1 + card2, dealer))
+  elsif deck_count == 4 && hard_table_4_decks[card1 + card2][dealer]
+    show_best_move(get_hash_value(hard_table_4_decks, card1 + card2, dealer))
+  else
+    show_best_move(get_hash_value(hard_table, card1 + card2,dealer))
+  end
 end
